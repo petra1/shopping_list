@@ -9,6 +9,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+final _controller = TextEditingController();
+
   List shoppingList = [
     ['Brot', false],
     ['Milch', false],
@@ -19,7 +21,13 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       shoppingList[index][1] = !shoppingList[index][1];
     });
-     
+  }
+
+  void saveNewTask () {
+    setState(() {
+      shoppingList.add([_controller.text, false ]);
+      _controller.clear();  
+    });
   }
 
   @override
@@ -40,10 +48,47 @@ class _HomePageState extends State<HomePage> {
           return ShoppingList(
             taskName: shoppingList[index][0],
             taskCompleted: shoppingList[index][1],
-            onChanged: (value)=> checkoxChanged(index),
-          
+            onChanged: (value) => checkoxChanged(index),
           );
         },
+      ),
+      floatingActionButton: Row(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: TextField(
+                controller:  _controller ,
+                decoration: InputDecoration(
+                  label:  Text('Add a new item'),
+                  filled: true,
+                  fillColor: Color.fromARGB(50, 4, 117, 4),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.secondaryContainer,
+                    ),
+                    borderRadius: BorderRadius.circular(18)
+                  ),
+                   focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.secondaryContainer ,
+                      
+                    ),
+                    borderRadius: BorderRadius.circular(18)
+                  ),
+                ),
+              ),
+            ),
+          ),
+          FloatingActionButton(
+            onPressed: saveNewTask,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
     );
   }
