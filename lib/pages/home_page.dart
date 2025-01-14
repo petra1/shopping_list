@@ -30,6 +30,13 @@ final _controller = TextEditingController();
     });
   }
 
+  void deleteTask(int index) {
+    setState(() {
+      shoppingList.removeAt(index);
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,46 +56,50 @@ final _controller = TextEditingController();
             taskName: shoppingList[index][0],
             taskCompleted: shoppingList[index][1],
             onChanged: (value) => checkoxChanged(index),
+           deleteFunction: (contex) => deleteTask(index),
           );
         },
       ),
-      floatingActionButton: Row(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: TextField(
-                controller:  _controller ,
-                decoration: InputDecoration(
-                  label:  Text('Add a new item'),
-                  filled: true,
-                  fillColor: Color.fromARGB(50, 4, 117, 4),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.secondaryContainer,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Row(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: TextField(
+                  controller:  _controller ,
+                  decoration: InputDecoration(
+                    hintText:  'Add a new item',
+                    filled: true,
+                    fillColor: Color.fromARGB(50, 4, 117, 4),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.secondaryContainer,
+                      ),
+                      borderRadius: BorderRadius.circular(18)
                     ),
-                    borderRadius: BorderRadius.circular(18)
-                  ),
-                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.secondaryContainer ,
-                      
+                     focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.secondaryContainer ,
+                        
+                      ),
+                      borderRadius: BorderRadius.circular(18)
                     ),
-                    borderRadius: BorderRadius.circular(18)
                   ),
                 ),
               ),
             ),
-          ),
-          FloatingActionButton(
-            onPressed: saveNewTask,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            child: Icon(
-              Icons.add,
-              color: Colors.white,
+            FloatingActionButton(
+              onPressed: saveNewTask,
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              child: Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
